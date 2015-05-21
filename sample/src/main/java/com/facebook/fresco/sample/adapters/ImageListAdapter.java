@@ -54,7 +54,7 @@ public abstract class ImageListAdapter<V extends View & Instrumented>
     V view = getViewClass().isInstance(convertView) ? (V) convertView : createView();
 
     int size = calcDesiredSize(parent.getWidth(), parent.getHeight());
-    updateViewLayoutParams(view, size, size);
+    updateViewLayoutParams(view, 2 * size, 2 * size);// modify by sminger
 
     String uri = getItem(position);
     view.initInstrumentation(uri, mPerfListener);

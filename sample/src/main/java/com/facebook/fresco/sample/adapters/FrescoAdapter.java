@@ -22,12 +22,15 @@ import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.generic.RoundingParams;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.fresco.sample.Drawables;
+import com.facebook.fresco.sample.MyPostprocessor;
 import com.facebook.fresco.sample.instrumentation.InstrumentedDraweeView;
 import com.facebook.fresco.sample.instrumentation.PerfListener;
 import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+import com.facebook.imagepipeline.request.Postprocessor;
+import android.graphics.Bitmap;
 
 /** Populate the list view with images using the Fresco image pipeline. */
 public class FrescoAdapter extends ImageListAdapter<InstrumentedDraweeView> {
@@ -56,18 +59,28 @@ public class FrescoAdapter extends ImageListAdapter<InstrumentedDraweeView> {
     return new InstrumentedDraweeView(getContext(), gdh);
   }
 
-  protected void bind(final InstrumentedDraweeView view, String uri) {
+    Postprocessor redMeshPostprocessor = new MyPostprocessor();
+
+
+    protected void bind(final InstrumentedDraweeView view, String uri) {
     ImageRequest imageRequest =
         ImageRequestBuilder.newBuilderWithSource(Uri.parse(uri))
-            .setResizeOptions(
-                new ResizeOptions(view.getLayoutParams().width, view.getLayoutParams().height))
+                .setAutoRotateEnabled(true)// modify by sminger , note : may it contained in listview,so not work
+                //.setPostprocessor(redMeshPostprocessor)// modify by sminger
+                .setResizeOptions(
+                        new ResizeOptions(view.getLayoutParams().width, view.getLayoutParams().height))
             .build();
+      Uri lowResUri = Uri.parse("http://u4.tdimg.com/7/147/82/31804659546604080410941337579323207967.jpg");
+      Uri heightResUri = Uri.parse("http://g1.ykimg.com/0516000051B6F2FA67583905D3081E0A");
     DraweeController draweeController = Fresco.newDraweeControllerBuilder()
-        .setImageRequest(imageRequest)
-        .setOldController(view.getController())
-        .setControllerListener(view.getListener())
-        .setAutoPlayAnimations(true)
-        .build();
+            .setLowResImageRequest(ImageRequest.fromUri(lowResUri))
+            //.setImageRequest(imageRequest.fromUri(heightResUri))
+            .setImageRequest(imageRequest)// default configuration
+            .setOldController(view.getController())
+            .setControllerListener(view.getListener())
+            .setAutoPlayAnimations(true)
+            .setTapToRetryEnabled(true)// modify by sminger
+            .build();
     view.setController(draweeController);
   }
 

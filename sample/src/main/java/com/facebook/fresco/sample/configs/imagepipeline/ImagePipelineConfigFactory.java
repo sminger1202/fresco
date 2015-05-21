@@ -15,6 +15,7 @@ package com.facebook.fresco.sample.configs.imagepipeline;
 
 import android.content.Context;
 
+import com.facebook.imagepipeline.decoder.SimpleProgressiveJpegConfig;
 import com.squareup.okhttp.OkHttpClient;
 
 import com.facebook.cache.disk.DiskCacheConfig;
@@ -39,7 +40,8 @@ public class ImagePipelineConfigFactory {
    */
   public static ImagePipelineConfig getImagePipelineConfig(Context context) {
     if (sImagePipelineConfig == null) {
-      ImagePipelineConfig.Builder configBuilder = ImagePipelineConfig.newBuilder(context);
+      ImagePipelineConfig.Builder configBuilder = ImagePipelineConfig.newBuilder(context)
+              .setProgressiveJpegConfig(new SimpleProgressiveJpegConfig());//modify by sminger
       configureCaches(configBuilder, context);
       sImagePipelineConfig = configBuilder.build();
     }
