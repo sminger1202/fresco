@@ -17,6 +17,7 @@ import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +41,6 @@ import com.facebook.fresco.sample.urlsfetcher.ImageFormat;
 import com.facebook.fresco.sample.urlsfetcher.ImageSize;
 import com.facebook.fresco.sample.urlsfetcher.ImageUrlsFetcher;
 import com.facebook.fresco.sample.urlsfetcher.ImageUrlsRequestBuilder;
-
 import java.util.List;
 import java.util.Locale;
 
@@ -195,12 +195,22 @@ public class MainActivity extends ActionBarActivity {
       mCurrentAdapter = null;
       System.gc();
     }
-
     mCurrentAdapterIndex = index;
     mPerfListener = new PerfListener();
     switch (index) {
       case FRESCO_INDEX:
       case FRESCO_OKHTTP_INDEX:
+//        ProgressiveJpegConfig pjpegConfig = new ProgressiveJpegConfig() {
+//          @Override
+//          public int getNextScanNumberToDecode(int scanNumber) {
+//            return scanNumber + 2;
+//          }
+//          @Override
+//          public QualityInfo getQualityInfo(int scanNumber) {
+//            boolean isGoodEnough = (scanNumber >= 5);
+//            return ImmutableQualityInfo.of(scanNumber, isGoodEnough, false);
+//          }
+//        };
         mCurrentAdapter = new FrescoAdapter(
                 this,
                 R.id.image_list,

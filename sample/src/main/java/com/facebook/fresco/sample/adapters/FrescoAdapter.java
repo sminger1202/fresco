@@ -30,7 +30,6 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.facebook.imagepipeline.request.Postprocessor;
-import android.graphics.Bitmap;
 
 /** Populate the list view with images using the Fresco image pipeline. */
 public class FrescoAdapter extends ImageListAdapter<InstrumentedDraweeView> {
@@ -69,12 +68,27 @@ public class FrescoAdapter extends ImageListAdapter<InstrumentedDraweeView> {
                 //.setPostprocessor(redMeshPostprocessor)// modify by sminger
                 .setResizeOptions(
                         new ResizeOptions(view.getLayoutParams().width, view.getLayoutParams().height))
+                .setProgressiveRenderingEnabled(true)
             .build();
-      Uri lowResUri = Uri.parse("http://u4.tdimg.com/7/147/82/31804659546604080410941337579323207967.jpg");
-      Uri heightResUri = Uri.parse("http://g1.ykimg.com/0516000051B6F2FA67583905D3081E0A");
+        /*
+        modify by sminger to verify the progressive loading image
+         */
+        Uri lowResUri = Uri.parse("http://u4.tdimg.com/7/147/82/31804659546604080410941337579323207967.jpg");
+        //Uri heightResUri = Uri.parse("http://g1.ykimg.com/0516000051B6F2FA67583905D3081E0A");
+        Uri heightResUri = Uri.parse("http://192.168.1.135:8080/image/king_pro.jpg");
+        //Uri heightResUri = Uri.parse("http://192.168.1.135:8080/image/DSC_2237_pro.jpg");
+        //Uri heightResUri = Uri.parse("https://img.okezone.com//content/2015/03/13/20/1117973/dirjen-pajak-blunder-soal-pajak-jalan-tol-Hhkw9dov48.jpg");
+        //Uri heightResUri = Uri.parse("http://pooyak.com/p/progjpeg/jpegload.cgi?o=1");
+
+        //Uri heightResUri = Uri.parse("http://192.168.1.135:8080/image/DSC_0097_pro.JPG");
+        ImageRequest myImageRequest = ImageRequestBuilder.newBuilderWithSource(heightResUri)
+                .setProgressiveRenderingEnabled(true)
+                .build();
+
     DraweeController draweeController = Fresco.newDraweeControllerBuilder()
-            .setLowResImageRequest(ImageRequest.fromUri(lowResUri))
-            //.setImageRequest(imageRequest.fromUri(heightResUri))
+            //.setLowResImageRequest(ImageRequest.fromUri(lowResUri))       //modify by sminger
+            //.setImageRequest(imageRequest.fromUri(heightResUri))          //modify by sminger
+            //.setImageRequest(myImageRequest)                                //modify bs sminger
             .setImageRequest(imageRequest)// default configuration
             .setOldController(view.getController())
             .setControllerListener(view.getListener())

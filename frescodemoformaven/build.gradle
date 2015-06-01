@@ -1,0 +1,35 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 21
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        applicationId "in.srain.demos.fresco"
+        minSdkVersion 19
+        targetSdkVersion 19
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    //compile 'com.facebook.fresco:fresco:0.5.0+'
+    provided "com.google.code.findbugs:jsr305:${JSR_305_VERSION}"
+    compile "com.android.support:appcompat-v7:${APPCOMPAT_V7_VERSION}"
+    compile "com.github.bumptech.glide:glide:${GLIDE_VERSION}"
+    compile "com.mcxiaoke.volley:library:${VOLLEY_VERSION}"
+    compile "com.nostra13.universalimageloader:universal-image-loader:${UIL_VERSION}"
+    compile "com.squareup.picasso:picasso:${PICASSO_VERSION}"
+
+    compile project(':drawee')
+    compile project(':drawee-backends:drawee-pipeline')
+    compile project(':drawee-backends:drawee-volley')
+    compile project(':fbcore')
+    compile project(':imagepipeline')
+    compile project(':imagepipeline-backends:imagepipeline-okhttp')
+}

@@ -17,6 +17,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import android.os.SystemClock;
+import android.util.Log;
 
 import com.facebook.common.executors.UiThreadExecutorService;
 import com.facebook.common.internal.ImmutableMap;
@@ -372,18 +373,26 @@ public class DecodeProducer implements Producer<CloseableReference<CloseableImag
     protected synchronized boolean updateDecodeJob(
         CloseableReference<PooledByteBuffer> imageBytesRef,
         boolean isLast) {
+
+      Log.i("ssss", "dddddddd+ isLast:" + isLast +" is closeable:" + CloseableReference.isValid(imageBytesRef));
+
       boolean ret = super.updateDecodeJob(imageBytesRef, isLast);
       if (!isLast && CloseableReference.isValid(imageBytesRef)) {
+        Log.i("sss", "ddddddddd" + "is more parse:" + mProgressiveJpegParser.parseMoreData(imageBytesRef));
         if (!mProgressiveJpegParser.parseMoreData(imageBytesRef)) {
           return false;
         }
         int scanNum = mProgressiveJpegParser.getBestScanNumber();
+//        scanNum = 10;
         if (scanNum <= mLastScheduledScanNumber ||
             scanNum < mProgressiveJpegConfig.getNextScanNumberToDecode(mLastScheduledScanNumber)) {
+          Log.i("ssss", "dddddddd+ scanNum:" + scanNum + "   mLastScheduledScanNumber"+mLastScheduledScanNumber);
           return false;
         }
+        Log.i("ssss", "dddddddd+ at D1111111111111111111111a");
         mLastScheduledScanNumber = scanNum;
       }
+      Log.i("ssss", "dddddddd+ at ______+++++++++++++__00001a");
       return ret;
     }
 
