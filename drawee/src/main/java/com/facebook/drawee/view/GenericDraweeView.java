@@ -64,7 +64,6 @@ public class GenericDraweeView extends DraweeView<GenericDraweeHierarchy> {
     super(context);
     setHierarchy(hierarchy);
   }
-
   public GenericDraweeView(Context context) {
     super(context);
     inflateHierarchy(context, null);

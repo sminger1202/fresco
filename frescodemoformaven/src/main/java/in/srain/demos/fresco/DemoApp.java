@@ -71,5 +71,6 @@ public class DemoApp extends Application {
                                 .setBaseDirectoryName(IMAGE_PIPELINE_CACHE_DIR)
                                 .setMaxCacheSize(ConfigConstants.MAX_DISK_CACHE_SIZE)
                                 .build());
+        Log.i("dddd", "cache dir is :" + context.getApplicationContext().getCacheDir());
     }
 }
